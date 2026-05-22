@@ -1,175 +1,77 @@
 ---
 name: flux-kontext
-description: Generate images (Flux Kontext Pro / Max text-to-image and image-to-image) through RunAPI.ai using the @runapi.ai/flux-kontext Node/TypeScript SDK. Use when the user asks to add Flux Kontext image generation or writes against @runapi.ai/flux-kontext. Triggers on "flux kontext", "flux-kontext", "image generation", "生成图片", "@runapi.ai/flux-kontext".
-documentation: https://runapi.ai/models/flux-kontext
-provider_page: https://runapi.ai/providers/black-forest-labs
-catalog: https://runapi.ai/models
+description: Generate and edit images with Flux Kontext through RunAPI. Use when the user asks an agent to create, edit, or transform images with Flux Kontext. Default to the RunAPI CLI for one-off generation; use SDKs only when the user is integrating RunAPI into an app or backend.
+documentation: https://runapi.ai/models/flux-kontext.md
+provider_page: https://runapi.ai/providers/black-forest-labs.md
+catalog: https://runapi.ai/models.md
+metadata:
+  openclaw:
+    homepage: https://runapi.ai/models/flux-kontext
+    requires:
+      bins:
+      - runapi
+    install:
+    - kind: brew
+      formula: runapi-ai/tap/runapi
+      bins:
+      - runapi
+    envVars:
+    - name: RUNAPI_API_KEY
+      required: false
+      description: Optional RunAPI API key; agents should prefer environment auth or saved CLI config. Browser login is interactive fallback only.
 ---
-# @runapi.ai/flux-kontext — RunAPI.ai Flux Kontext image generation
 
-Build Node / TypeScript integrations that generate and transform images through RunAPI.ai.
+# Flux Kontext on RunAPI
 
-## Setup
+Generate and edit images with Flux Kontext through RunAPI. The default path for one-off agent tasks is the `runapi` CLI; SDKs are for application integration.
 
-Requires **Node 18+** (global `fetch`).
+## Routing decision
 
-```bash
-npm install @runapi.ai/flux-kontext
+- One-off generation, editing, or transformation for the user → use the **CLI path** with the `runapi` binary.
+- Building an app, backend, worker, library, or production codebase → use the **SDK integration path**.
+
+## CLI path
+
+The `runapi` binary is the runtime dependency. Run `runapi auth status` first. For agents and headless runs, prefer `RUNAPI_API_KEY` or import it into saved config with `printf '%s' "$RUNAPI_API_KEY" | runapi auth import-token --token -`. Use `runapi login` only when the user explicitly wants interactive browser auth.
+
+Inspect the available actions and request fields with CLI help:
+
+```shell
+runapi flux-kontext --help
+runapi flux-kontext text-to-image --help
 ```
 
-Set your API key in the environment:
+Run a one-off task (synchronous — polls until the task completes):
 
-```dotenv
-# .env
-RUNAPI_API_KEY=runapi_xxx   # get one at https://runapi.ai/settings/api_keys
+```shell
+runapi flux-kontext text-to-image --input-file request.json
 ```
 
-```ts
-import { FluxKontextClient } from '@runapi.ai/flux-kontext';
+Submit asynchronously and poll separately:
 
-// The SDK reads RUNAPI_API_KEY from the environment automatically.
-const client = new FluxKontextClient();
+```shell
+runapi flux-kontext text-to-image --async --input-file request.json
+runapi wait <task-id> --service flux-kontext --action text-to-image
 ```
 
-Pass `{ apiKey }` explicitly if you manage secrets differently. `baseUrl` defaults to `https://runapi.ai`; override only for local development.
+Available actions: `text-to-image`.
 
-## Core recipe — text to image
+## SDK integration path
 
-```ts
-const result = await client.textToImage.run({
-  model: 'flux-kontext-pro',
-  prompt: 'A futuristic cityscape at night',
-  aspect_ratio: '16:9',
-  output_format: 'jpeg',
-});
+When integrating Flux Kontext into an app, backend, worker, or library — not for one-off tasks — use a RunAPI SDK package:
 
-const url = result.images[0].url;
-```
+- JavaScript / TypeScript: `@runapi.ai/flux-kontext`
+- Ruby: `runapi-flux_kontext`
+- Go: `github.com/runapi-ai/flux-kontext-sdk/go`
 
-`run()` creates the task, auto-polls, and resolves only when the task completes — `images[0].url` is populated on success. On failure it throws `TaskFailedError`; on polling timeout it throws `TaskTimeoutError`. Use `run()` for scripts and short-lived processes. For request handlers, split it:
+## References
 
-```ts
-const { id } = await client.textToImage.create({ model: 'flux-kontext-pro', prompt: '...' });
-// return 202 immediately; fetch later:
-const status = await client.textToImage.get(id);
-if (status.status === 'completed') { /* ... */ }
-```
+- Model overview, pricing, and rate limits: https://runapi.ai/models/flux-kontext.md
+- Provider comparison: https://runapi.ai/providers/black-forest-labs.md
+- Full model catalog: https://runapi.ai/models.md
 
-Do not hold a web worker open waiting on `run()`. Split + webhook is the production pattern.
+## Variants
 
-`run()` polls every 2 s for up to 15 min by default. Tune when needed:
+- [Flux Kontext Pro](https://runapi.ai/models/flux-kontext/pro.md)
+- [Flux Kontext Max](https://runapi.ai/models/flux-kontext/max.md)
 
-```ts
-await client.textToImage.run(params, { maxWaitMs: 5 * 60_000, pollIntervalMs: 2_000 });
-```
-
-If `TaskTimeoutError` fires, the task is still running server-side — resume with `textToImage.get(id)` or finish via webhook.
-
-## Image-to-image — edit a source image
-
-Pass `input_image` (a single URL) along with your prompt:
-
-```ts
-await client.textToImage.run({
-  model: 'flux-kontext-max',
-  prompt: 'Restyle as a 1970s film photograph',
-  input_image: 'https://cdn.example.com/source.jpg',
-  aspect_ratio: '4:3',
-});
-```
-
-## Models
-
-| `model` | Use case |
-|---|---|
-| `flux-kontext-pro` | Cost-efficient production output. |
-| `flux-kontext-max` | Higher-fidelity variant. |
-
-`aspect_ratio` values: `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16`. `output_format`: `jpeg` / `png`.
-
-Exact credit costs per model are shown at https://runapi.ai/pricing and in the dashboard — do not hardcode prices in application code.
-
-## Callbacks (webhooks)
-
-Pass `callback_url` on `create()` (or any `run()` call) and RunAPI will POST the final payload to you:
-
-```ts
-await client.textToImage.create({
-  model: 'flux-kontext-pro',
-  prompt: '...',
-  callback_url: 'https://your.app/webhooks/runapi/flux-kontext',
-});
-```
-
-Payload shape:
-
-```ts
-{ id: string; status: 'completed' | 'failed'; images?: { url: string; origin_url?: string }[]; error?: string }
-```
-
-**Always verify the signature before trusting the body.** RunAPI signs every callback with your account's Callback Secret (rotate at `/accounts/callback_secret`). Headers:
-
-- `X-Callback-Id` — UUID, store to make handler idempotent
-- `X-Callback-Timestamp` — unix seconds, reject if `|now - ts| > 300`
-- `X-Callback-Signature` — base64 HMAC-SHA256 over `` `${id}.${ts}.${rawBody}` `` using the base64-decoded secret
-
-```ts
-import crypto from 'node:crypto';
-
-function verify(raw: string, id: string, ts: string, sig: string, secret: string) {
-  const key = Buffer.from(secret, 'base64');
-  const mac = crypto.createHmac('sha256', key)
-    .update(`${id}.${ts}.${raw}`)
-    .digest('base64');
-  return crypto.timingSafeEqual(Buffer.from(mac), Buffer.from(sig));
-}
-```
-
-Reply `2xx` within 10s; any non-2xx triggers retries.
-
-## Errors
-
-All errors are re-exported from `@runapi.ai/core`. Always `instanceof` — never string-match messages.
-
-| Error | Status | Action |
-|---|---|---|
-| `AuthenticationError` | 401 | abort; surface "reconnect your API key" |
-| `InsufficientCreditsError` | 402 | prompt user to top up at runapi.ai/billing |
-| `ValidationError` | 400 / 422 | fix params; do not retry |
-| `RateLimitError` | 429 | sleep `err.retryAfterMs`, then retry |
-| `ServiceUnavailableError` | 503 / 455 | retry with backoff; transient service issue |
-| `TaskFailedError` | — | show `err.details` to user; do not auto-retry |
-| `TaskTimeoutError` | — | re-poll with `textToImage.get(id)` |
-
-```ts
-import { InsufficientCreditsError, TaskFailedError } from '@runapi.ai/flux-kontext';
-
-try {
-  await client.textToImage.run({ model: 'flux-kontext-pro', prompt: '...' });
-} catch (err) {
-  if (err instanceof InsufficientCreditsError) { /* surface top-up CTA */ }
-  else if (err instanceof TaskFailedError)       { /* show err.details */ }
-  else throw err;
-}
-```
-
-## Gotchas
-
-- `model` is required on every call.
-- `input_image` is a single URL (string), not an array — this is the one endpoint in the family that takes a scalar URL.
-- `enable_translation` defaults to `true` — the prompt is auto-translated to English. Set `false` to keep the raw prompt.
-- `callback_url` must be reachable from the public internet. `localhost` / `127.0.0.1` URLs will never fire — use a tunnel (cloudflared, ngrok, tailscale funnel) when developing locally.
-
-## Dig deeper
-
-Package README (full API surface, all params): `node_modules/@runapi.ai/flux-kontext/README.md`. Types: `@runapi.ai/flux-kontext/dist/types.d.ts`. Product docs: https://runapi.ai/docs.
-
-## RunAPI public routing
-
-flux kontext api public links use the API-379 catalog route map. The main flux kontext api page is https://runapi.ai/models/flux-kontext. SDK docs live at https://runapi.ai/docs#sdk-flux-kontext and product docs live at https://runapi.ai/docs#flux-kontext.
-
-Pricing, rate limits, and commercial usage for flux kontext api should point to the most specific variant page:
-- [Flux Kontext Pro](https://runapi.ai/models/flux-kontext/pro)
-- [Flux Kontext Max](https://runapi.ai/models/flux-kontext/max)
-
-Compare Flux Kontext with other Black Forest Labs models at https://runapi.ai/providers/black-forest-labs. Browse every RunAPI model and skill at https://runapi.ai/models. SDK repository: https://github.com/runapi-ai/flux-kontext-sdk. Skill repository: https://github.com/runapi-ai/flux-kontext.
