@@ -1,6 +1,6 @@
 # Flux Kontext API Ruby SDK for RunAPI
 
-The flux kontext api Ruby SDK is the language-specific package for Flux Kontext on RunAPI. Use this flux kontext api package for text-to-image, image-to-image, edit, and creative production flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
+The flux kontext api Ruby SDK is the language-specific package for Flux Kontext on RunAPI. Use this flux kontext api package for text-to-image, image editing, and creative production flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
 This flux kontext api README is the Ruby package guide inside the public `flux-kontext-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/flux-kontext; for API reference, use https://runapi.ai/docs#flux-kontext; for SDK docs, use https://runapi.ai/docs#sdk-flux-kontext.
 

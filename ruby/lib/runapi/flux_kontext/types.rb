@@ -16,7 +16,7 @@ module RunApi
       class TextToImageResponse < RunApi::Core::TaskResponse
         required :id, String
         optional :status, String, enum: -> { RunApi::Core::TaskResponse::Status::ALL }
-        optional :images, [ -> { Image } ]
+        optional :images, [-> { Image }]
         optional :error, String
       end
 
@@ -24,7 +24,7 @@ module RunApi
       # `status: "completed"`. `images` is required so consumers never have to
       # null-check it on a successful task.
       class CompletedTextToImageResponse < TextToImageResponse
-        required :images, [ -> { Image } ]
+        required :images, [-> { Image }]
       end
     end
   end

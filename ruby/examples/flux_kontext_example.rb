@@ -24,7 +24,7 @@ puts "\n=== Image Editing ==="
 result = client.text_to_image.run(
   model: "flux-kontext-max",
   prompt: "make the sky more dramatic",
-  input_image: "https://example.com/photo.jpg",
+  source_image_url: "https://cdn.runapi.ai/public/samples/photo.jpg",
   aspect_ratio: "1:1"
 )
 puts "Status: #{result["status"]}"

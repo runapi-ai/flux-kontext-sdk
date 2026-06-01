@@ -29,9 +29,11 @@ func TestTextToImageCreate(t *testing.T) {
 		response: json.RawMessage(`{"id":"task_123","status":"processing"}`),
 	}
 	client := NewClientWithHTTP(stub)
+	enablePromptExpansion := true
 	resp, err := client.TextToImage.Create(context.Background(), TextToImageParams{
-		Prompt: "a cat wearing sunglasses",
-		Model:  "flux-kontext-pro",
+		Prompt:                "a cat wearing sunglasses",
+		Model:                 "flux-kontext-pro",
+		EnablePromptExpansion: &enablePromptExpansion,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -46,14 +48,45 @@ func TestTextToImageCreate(t *testing.T) {
 	if body["model"] != "flux-kontext-pro" {
 		t.Fatalf("unexpected model: %v", body["model"])
 	}
+	if body["enable_prompt_expansion"] != true {
+		t.Fatalf("unexpected enable_prompt_expansion: %v", body["enable_prompt_expansion"])
+	}
+	if _, ok := body["prompt_upsampling"]; ok {
+		t.Fatal("expected removed prompt_upsampling field to be absent")
+	}
 	if resp.ID != "task_123" {
+		t.Fatalf("unexpected task ID: %v", resp.ID)
+	}
+}
+
+func TestTextToImageCreateWithSourceImageURL(t *testing.T) {
+	stub := &stubHTTPClient{
+		response: json.RawMessage(`{"id":"task_789","status":"processing"}`),
+	}
+	client := NewClientWithHTTP(stub)
+	resp, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Prompt:         "replace the sky",
+		Model:          "flux-kontext-pro",
+		SourceImageURL: "https://cdn.runapi.ai/public/samples/source.jpg",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["source_image_url"] != "https://cdn.runapi.ai/public/samples/source.jpg" {
+		t.Fatalf("unexpected source_image_url: %v", body["source_image_url"])
+	}
+	if _, ok := body["input_image"]; ok {
+		t.Fatalf("unexpected stale input_image field: %v", body["input_image"])
+	}
+	if resp.ID != "task_789" {
 		t.Fatalf("unexpected task ID: %v", resp.ID)
 	}
 }
 
 func TestTextToImageGet(t *testing.T) {
 	stub := &stubHTTPClient{
-		response: json.RawMessage(`{"id":"task_456","status":"completed","images":[{"url":"https://example.com/image.jpg"}]}`),
+		response: json.RawMessage(`{"id":"task_456","status":"completed","images":[{"url":"https://cdn.runapi.ai/public/samples/result.jpg"}]}`),
 	}
 	client := NewClientWithHTTP(stub)
 	resp, err := client.TextToImage.Get(context.Background(), "task_abc")
@@ -69,7 +102,7 @@ func TestTextToImageGet(t *testing.T) {
 	if string(resp.Status) != "completed" {
 		t.Fatalf("unexpected status: %v", resp.Status)
 	}
-	if len(resp.Images) != 1 || resp.Images[0].URL != "https://example.com/image.jpg" {
+	if len(resp.Images) != 1 || resp.Images[0].URL != "https://cdn.runapi.ai/public/samples/result.jpg" {
 		t.Fatalf("unexpected images: %v", resp.Images)
 	}
 }

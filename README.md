@@ -20,7 +20,7 @@
 </div>
 <br/>
 
-The flux kontext api SDK packages JavaScript, Ruby, and Go clients for Flux Kontext on RunAPI. Use this flux kontext api SDK for text-to-image, image-to-image, edit, and creative production workflows that need typed installs, JSON request bodies, task polling, and consistent RunAPI errors across services.
+The flux kontext api SDK packages JavaScript, Ruby, and Go clients for Flux Kontext on RunAPI. Use this flux kontext api SDK for text-to-image, source-image editing, and creative production workflows that need typed installs, JSON request bodies, task polling, and consistent RunAPI errors across services.
 
 Flux Kontext belongs to the Black Forest Labs catalog on RunAPI. The public model page is https://runapi.ai/models/flux-kontext; variant pages below carry pricing, rate-limit, and commercial-usage details. The public `flux-kontext-sdk` repository groups the JavaScript, Ruby, and Go packages for this model.
 

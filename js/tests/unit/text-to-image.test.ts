@@ -61,7 +61,7 @@ describe('TextToImage', () => {
       expect(result).toEqual(mockResponse);
     });
 
-    it('should send correct request with input_image for editing', async () => {
+    it('should send correct request with source_image_url for editing', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-789' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -69,7 +69,7 @@ describe('TextToImage', () => {
       await textToImage.create({
         model: 'flux-kontext-pro',
         prompt: 'Change the background to a sunset',
-        input_image: 'https://example.com/photo.jpg',
+        source_image_url: 'https://cdn.runapi.ai/public/samples/photo.jpg',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -79,7 +79,7 @@ describe('TextToImage', () => {
           body: {
             model: 'flux-kontext-pro',
             prompt: 'Change the background to a sunset',
-            input_image: 'https://example.com/photo.jpg',
+            source_image_url: 'https://cdn.runapi.ai/public/samples/photo.jpg',
           },
         }
       );
@@ -97,10 +97,9 @@ describe('TextToImage', () => {
         output_format: 'png',
         aspect_ratio: '1:1',
         enable_translation: true,
-        prompt_upsampling: true,
+        enable_prompt_expansion: true,
         safety_tolerance: 3,
-        upload_cn: true,
-        watermark: false,
+        watermark: 'brand-watermark',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -114,14 +113,14 @@ describe('TextToImage', () => {
             output_format: 'png',
             aspect_ratio: '1:1',
             enable_translation: true,
-            prompt_upsampling: true,
+            enable_prompt_expansion: true,
             safety_tolerance: 3,
-            upload_cn: true,
-            watermark: false,
+            watermark: 'brand-watermark',
           },
         }
       );
     });
+
   });
 
   describe('get', () => {
@@ -148,7 +147,7 @@ describe('TextToImage', () => {
         id: 'task-123',
         status: 'completed',
         images: [
-          { url: 'https://example.com/result.png', origin_url: 'https://origin.com/result.png' },
+          { url: 'https://cdn.runapi.ai/public/samples/result.png', origin_url: 'https://cdn.runapi.ai/public/samples/origin.png' },
         ],
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
@@ -158,8 +157,8 @@ describe('TextToImage', () => {
 
       expect(result.status).toBe('completed');
       expect(result.images).toHaveLength(1);
-      expect(result.images?.[0].url).toBe('https://example.com/result.png');
-      expect(result.images?.[0].origin_url).toBe('https://origin.com/result.png');
+      expect(result.images?.[0].url).toBe('https://cdn.runapi.ai/public/samples/result.png');
+      expect(result.images?.[0].origin_url).toBe('https://cdn.runapi.ai/public/samples/origin.png');
     });
 
     it('should return failed status with error', async () => {
@@ -189,7 +188,7 @@ describe('TextToImage', () => {
         id: 'task-123',
         status: 'completed',
         images: [
-          { url: 'https://example.com/result.png' },
+          { url: 'https://cdn.runapi.ai/public/samples/result.png' },
         ],
       };
 

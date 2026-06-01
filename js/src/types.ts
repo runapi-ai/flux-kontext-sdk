@@ -16,12 +16,12 @@ export interface TextToImageParams {
   callback_url?: string;
   aspect_ratio?: AspectRatio;
   output_format?: OutputFormat;
-  input_image?: string;
+  source_image_url?: string;
   /** Auto-translate prompt to English (default: true). */
   enable_translation?: boolean;
-  prompt_upsampling?: boolean;
+  /** Expand the prompt with more detail (default: false). */
+  enable_prompt_expansion?: boolean;
   safety_tolerance?: number;
-  upload_cn?: boolean;
   watermark?: string;
 }
 
