@@ -2,22 +2,22 @@
 
 module RunApi
   module FluxKontext
-    # Flux Kontext image generation API client.
+    # Flux Kontext image generation and editing API client.
+    #
+    # Supports pure text-to-image generation and image editing via
+    # source_image_url. Pro and max quality tiers available.
     #
     # @example
     #   client = RunApi::FluxKontext::Client.new(api_key: "your-api-key")
     #   result = client.text_to_image.run(
     #     model: "flux-kontext-pro", prompt: "A futuristic cityscape"
     #   )
-    class Client
+    class Client < RunApi::Core::Client
       # @return [Resources::TextToImage] Image generation operations.
       attr_reader :text_to_image
 
       def initialize(api_key: nil, **options)
-        @api_key = Core::Auth.resolve_api_key(api_key)
-
-        client_options = Core::ClientOptions.new(api_key: @api_key, **options)
-        http = client_options.http_client || Core::HttpClient.new(client_options)
+        super
         @text_to_image = Resources::TextToImage.new(http)
       end
     end

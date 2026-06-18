@@ -1,8 +1,11 @@
-import { createHttpClient, type ClientOptions } from '@runapi.ai/core';
+import { BaseClient, type ClientOptions } from '@runapi.ai/core';
 import { TextToImage } from './resources/text-to-image';
 
 /**
- * Flux Kontext text-to-image API client.
+ * Flux Kontext image generation and editing API client.
+ *
+ * Supports pure text-to-image generation and image editing via
+ * `source_image_url`. Pro and max quality tiers available.
  *
  * @example
  * ```typescript
@@ -17,12 +20,12 @@ import { TextToImage } from './resources/text-to-image';
  * });
  * ```
  */
-export class FluxKontextClient {
-  /** Text-to-image operations. */
+export class FluxKontextClient extends BaseClient {
+  /** Image generation and editing operations. */
   public readonly textToImage: TextToImage;
 
   constructor(options: ClientOptions = {}) {
-    const http = createHttpClient(options);
-    this.textToImage = new TextToImage(http);
+    super(options);
+    this.textToImage = new TextToImage(this.http);
   }
 }
