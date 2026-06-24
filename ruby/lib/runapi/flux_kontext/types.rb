@@ -3,11 +3,6 @@
 module RunApi
   module FluxKontext
     module Types
-      MODELS = %w[flux-kontext-pro flux-kontext-max].freeze
-
-      ASPECT_RATIOS = %w[21:9 16:9 4:3 1:1 3:4 9:16].freeze
-      OUTPUT_FORMATS = %w[jpeg png].freeze
-
       class Image < RunApi::Core::BaseModel
         optional :url, String
         optional :origin_url, String

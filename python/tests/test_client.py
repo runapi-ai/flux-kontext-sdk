@@ -123,7 +123,7 @@ def test_run_polls_and_narrows_completed_type():
 
 def test_create_requires_model():
     client = FluxKontextClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model is required"):
+    with pytest.raises(ValidationError, match="model must be one of: flux-kontext-max, flux-kontext-pro"):
         client.text_to_image.create(prompt="hi")
 
 
@@ -135,13 +135,13 @@ def test_create_requires_prompt():
 
 def test_create_rejects_unknown_model():
     client = FluxKontextClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid model"):
+    with pytest.raises(ValidationError, match="model must be one of: flux-kontext-max, flux-kontext-pro"):
         client.text_to_image.create(model="not-a-model", prompt="hi")
 
 
 def test_create_rejects_invalid_aspect_ratio():
     client = FluxKontextClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+    with pytest.raises(ValidationError, match="aspect_ratio must be one of: 21:9, 16:9, 4:3, 1:1, 3:4, 9:16"):
         client.text_to_image.create(
             model="flux-kontext-pro", prompt="hi", aspect_ratio="99:1"
         )
@@ -149,7 +149,7 @@ def test_create_rejects_invalid_aspect_ratio():
 
 def test_create_rejects_invalid_output_format():
     client = FluxKontextClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid output_format"):
+    with pytest.raises(ValidationError, match="output_format must be one of: jpeg, png"):
         client.text_to_image.create(
             model="flux-kontext-pro", prompt="hi", output_format="gif"
         )

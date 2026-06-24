@@ -7,13 +7,13 @@ This flux kontext api README is the Ruby package guide inside the public `flux-k
 ## Install
 
 ```bash
-gem install runapi-flux-kontext
+gem install runapi-flux_kontext
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-flux-kontext"
+require "runapi-flux_kontext"
 
 client = RunApi::FluxKontext::Client.new
 task = client.generations.create(

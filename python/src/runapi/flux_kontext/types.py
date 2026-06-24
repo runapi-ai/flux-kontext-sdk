@@ -1,13 +1,8 @@
-"""Flux Kontext model lists, enums, and response models."""
+"""Flux Kontext response models."""
 
 from __future__ import annotations
 
 from runapi.core import BaseModel, TaskResponse, optional, required
-
-MODELS = ["flux-kontext-pro", "flux-kontext-max"]
-
-ASPECT_RATIOS = ["21:9", "16:9", "4:3", "1:1", "3:4", "9:16"]
-OUTPUT_FORMATS = ["jpeg", "png"]
 
 
 class Image(BaseModel):
