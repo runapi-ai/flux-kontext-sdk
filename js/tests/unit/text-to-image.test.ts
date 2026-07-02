@@ -93,7 +93,7 @@ describe('TextToImage', () => {
       await textToImage.create({
         model: 'flux-kontext-max',
         prompt: 'Test image',
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
         output_format: 'png',
         aspect_ratio: '1:1',
         enable_translation: true,
@@ -109,7 +109,7 @@ describe('TextToImage', () => {
           body: {
             model: 'flux-kontext-max',
             prompt: 'Test image',
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
             output_format: 'png',
             aspect_ratio: '1:1',
             enable_translation: true,
