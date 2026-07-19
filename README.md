@@ -7,14 +7,14 @@
 </h3>
 
 <p align="center">
-  Flux Kontext API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
+  Flux Kontext API SDKs for JavaScript, Python, Ruby, Go, Java, and PHP on RunAPI.
 </p>
 
 <div align="center">
 
 [![npm](https://img.shields.io/npm/v/@runapi.ai/flux-kontext)](https://www.npmjs.com/package/@runapi.ai/flux-kontext)
 [![PyPI](https://img.shields.io/pypi/v/runapi-flux-kontext)](https://pypi.org/project/runapi-flux-kontext/)
-[![RubyGems](https://img.shields.io/gem/v/runapi-flux_kontext)](https://rubygems.org/gems/runapi-flux_kontext)
+[![RubyGems](https://img.shields.io/gem/v/runapi-flux-kontext)](https://rubygems.org/gems/runapi-flux-kontext)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/flux-kontext-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/flux-kontext-sdk/go)
 [![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-flux-kontext)](https://central.sonatype.com/artifact/ai.runapi/runapi-flux-kontext)
 [![License](https://img.shields.io/github/license/runapi-ai/flux-kontext-sdk)](https://github.com/runapi-ai/flux-kontext-sdk/blob/main/LICENSE)
@@ -22,16 +22,16 @@
 </div>
 <br/>
 
-The Flux Kontext API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Flux Kontext on RunAPI. Use it for text-to-image and source-image editing workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Flux Kontext API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Flux Kontext on RunAPI. Use it for text-to-image and source-image editing workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Flux Kontext is listed in the RunAPI model catalog at https://runapi.ai/models/flux-kontext. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `flux-kontext-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+Flux Kontext is listed in the RunAPI model catalog at https://runapi.ai/models/flux-kontext. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `flux-kontext-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
 ```bash
 npm install @runapi.ai/flux-kontext
 pip install runapi-flux-kontext
-gem install runapi-flux_kontext
+gem install runapi-flux-kontext
 go get github.com/runapi-ai/flux-kontext-sdk/go@latest
 ```
 
@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-flux-kontext:0.1.0")
+  implementation("ai.runapi:runapi-flux-kontext:0.1.1")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-flux-kontext</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
 </dependency>
 ```
 
@@ -57,10 +57,12 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.1.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.1.7"))
   implementation("ai.runapi:runapi-flux-kontext")
 }
 ```
+
+The PHP package is published from the split Composer repository as `runapi-ai/flux-kontext`; see https://github.com/runapi-ai/flux-kontext-php for PHP install and examples.
 
 ## What you can build
 
@@ -102,7 +104,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 - `js/` publishes `@runapi.ai/flux-kontext`.
 - `python/` publishes `runapi-flux-kontext`.
-- `ruby/` publishes `runapi-flux_kontext` when RubyGems publishing resumes.
+- `ruby/` publishes `runapi-flux-kontext`.
 - `go/` publishes `github.com/runapi-ai/flux-kontext-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
 - `java/` publishes `ai.runapi:runapi-flux-kontext` and depends on `ai.runapi:runapi-core`.
 
@@ -112,6 +114,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 - SDK docs: https://runapi.ai/docs#sdk-flux-kontext
 - Product docs: https://runapi.ai/docs#flux-kontext
 - SDK repository: https://github.com/runapi-ai/flux-kontext-sdk
+- PHP package repository: https://github.com/runapi-ai/flux-kontext-php
 - Skill repository: https://github.com/runapi-ai/flux-kontext
 - Provider comparison: https://runapi.ai/providers/black-forest-labs
 - Full catalog: https://runapi.ai/models
@@ -132,7 +135,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ### Which package should I install for Flux Kontext work?
 
-Install the model package for your language: `@runapi.ai/flux-kontext` on npm, `runapi-flux-kontext` on PyPI, `runapi-flux_kontext` on RubyGems, `github.com/runapi-ai/flux-kontext-sdk/go`, or `ai.runapi:runapi-flux-kontext`. Install core SDK packages only when you are building shared SDK infrastructure.
+Install the model package for your language: `@runapi.ai/flux-kontext` on npm, `runapi-flux-kontext` on PyPI, `runapi-flux-kontext` on RubyGems, `github.com/runapi-ai/flux-kontext-sdk/go`, `ai.runapi:runapi-flux-kontext` on Maven Central, or `runapi-ai/flux-kontext` on Packagist. Install core SDK packages only when you are building shared SDK infrastructure.
 
 ### Where should public links point?
 
