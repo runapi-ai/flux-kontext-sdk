@@ -7,13 +7,13 @@ This README is the Ruby package guide inside the public `flux-kontext-sdk` repos
 ## Install
 
 ```bash
-gem install runapi-flux_kontext
+gem install runapi-flux-kontext
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-flux_kontext"
+require "runapi/flux_kontext"
 
 client = RunApi::FluxKontext::Client.new
 task = client.text_to_image.create(

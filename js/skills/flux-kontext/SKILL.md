@@ -36,7 +36,7 @@ Generate and edit images with Flux Kontext through RunAPI. The default path for 
 When integrating Flux Kontext into an app, backend, worker, library, Rails service, Node service, Go service, webhook pipeline, or production workflow, start by checking the current SDK package and official usage. Confirm install commands, client methods (`create`, `get`, `run`), request fields, response shape, and error classes before using CLI help or raw HTTP examples. Use a RunAPI SDK package:
 
 - JavaScript / TypeScript: `@runapi.ai/flux-kontext`
-- Ruby: `runapi-flux_kontext`
+- Ruby: `runapi-flux-kontext`
 - Go: `github.com/runapi-ai/flux-kontext-sdk/go`
 
 ## CLI path
