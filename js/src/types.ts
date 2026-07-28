@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
 
 /** Model variants. Pro balances speed and quality; max prioritizes quality at longer generation time. */
 export type FluxKontextModel = 'flux-kontext-pro' | 'flux-kontext-max';
@@ -34,7 +34,7 @@ export interface TextToImageParams {
   watermark?: string;
 }
 
-export interface TaskCreateResponse {
+export interface TaskCreateResponse extends TaskBillingResponse {
   id: string;
 }
 
@@ -47,7 +47,7 @@ export interface Image {
 }
 
 /** Task result for a Flux Kontext image creation request. */
-export interface TextToImageResponse {
+export interface TextToImageResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   /** Output images, populated once the task completes successfully. */
