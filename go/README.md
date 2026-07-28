@@ -2,7 +2,7 @@
 
 The Flux Kontext Go SDK is the language-specific package for Flux Kontext on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Go.
 
-This README is the Go package guide inside the public `flux-kontext-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/flux-kontext; for API reference, use https://runapi.ai/docs#flux-kontext; for SDK docs, use https://runapi.ai/docs#sdk-flux-kontext.
+This README is the Go package guide inside the public `flux-kontext-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/flux-kontext; for API reference, use https://runapi.ai/docs/api/flux-kontext/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -21,7 +21,7 @@ import (
 
 client, err := fluxkontext.NewClient()
 task, err := client.TextToImage.Create(context.Background(), fluxkontext.TextToImageParams{
-  // Pass the Flux Kontext JSON request body from https://runapi.ai/docs#flux-kontext.
+  // Pass the Flux Kontext JSON request body from https://runapi.ai/docs/api/flux-kontext/text-to-image.
 })
 status, err := client.TextToImage.Get(context.Background(), task.ID)
 ```
@@ -37,8 +37,8 @@ Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when bu
 ## Links
 
 - Model page: https://runapi.ai/models/flux-kontext
-- SDK docs: https://runapi.ai/docs#sdk-flux-kontext
-- Product docs: https://runapi.ai/docs#flux-kontext
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/flux-kontext/text-to-image
 - Pricing and rate limits: https://runapi.ai/models/flux-kontext/pro
 - Provider comparison: https://runapi.ai/providers/black-forest-labs
 - Full catalog: https://runapi.ai/models

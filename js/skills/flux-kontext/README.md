@@ -61,8 +61,8 @@ const url = result.images[0].url;
 ## Routing
 
 - Model page: https://runapi.ai/models/flux-kontext
-- Product docs: https://runapi.ai/docs#flux-kontext
-- SDK docs: https://runapi.ai/docs#sdk-flux-kontext
+- Product docs: https://runapi.ai/docs/api/flux-kontext/text-to-image
+- SDK docs: https://runapi.ai/docs/resources/sdks
 - SDK repository: https://github.com/runapi-ai/flux-kontext-sdk
 - Pricing and rate limits: https://runapi.ai/models/flux-kontext/pro
 - Provider comparison: https://runapi.ai/providers/black-forest-labs

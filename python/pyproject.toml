@@ -15,7 +15,7 @@ dependencies = ["runapi-core>=0.3.1"]
 
 [project.urls]
 Homepage = "https://runapi.ai/models/flux-kontext"
-Documentation = "https://runapi.ai/docs#sdk-flux-kontext"
+Documentation = "https://runapi.ai/docs/resources/sdks"
 Source = "https://github.com/runapi-ai/flux-kontext-sdk"
 Issues = "https://github.com/runapi-ai/flux-kontext-sdk/issues"
 Changelog = "https://github.com/runapi-ai/flux-kontext-sdk/blob/main/CHANGELOG.md"

@@ -4,7 +4,7 @@
 
 The Flux Kontext Java SDK is the language-specific package for Flux Kontext on RunAPI. Use it when your Java application needs typed builders, strict request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Flux Kontext workflows.
 
-This README is the Java package guide inside the public `flux-kontext-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/flux-kontext; for API reference, use https://runapi.ai/docs#flux-kontext; for SDK docs, use https://runapi.ai/docs#sdk-flux-kontext.
+This README is the Java package guide inside the public `flux-kontext-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/flux-kontext; for API reference, use https://runapi.ai/docs/api/flux-kontext/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Requirements
 
@@ -177,8 +177,8 @@ try {
 ## Links
 
 - Model page: https://runapi.ai/models/flux-kontext
-- SDK docs: https://runapi.ai/docs#sdk-flux-kontext
-- Product docs: https://runapi.ai/docs#flux-kontext
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/flux-kontext/text-to-image
 - Pricing and rate limits: https://runapi.ai/models/flux-kontext/pro
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/flux-kontext-sdk
