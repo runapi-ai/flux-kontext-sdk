@@ -87,8 +87,7 @@ def test_create_posts_compacted_body():
             "post",
             "/api/v1/flux_kontext/text_to_image",
             {"model": "flux-kontext-pro", "prompt": "hello", "aspect_ratio": "1:1"},
-        ),
-    ]
+        )]
     assert isinstance(result, TextToImageResponse)
     assert result.id == "t1"
 
@@ -105,9 +104,8 @@ def test_run_polls_and_narrows_completed_type():
         {"id": "t1", "status": "pending"},
         {
             "id": "t1",
-            "status": "completed",
-            "images": [{"url": "https://x/y.png", "origin_url": "https://x/orig.png"}],
-        },
+            "status": "completed", "usage": {"cost": 0.05},
+            "images": [{"url": "https://x/y.png", "origin_url": "https://x/orig.png"}]},
     )
     client = FluxKontextClient(api_key="k", http_client=fake)
     result = client.text_to_image.run(model="flux-kontext-pro", prompt="hi")

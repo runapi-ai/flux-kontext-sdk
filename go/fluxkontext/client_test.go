@@ -26,15 +26,13 @@ func (s *stubHTTPClient) Request(_ context.Context, method, path string, opts *c
 
 func TestTextToImageCreate(t *testing.T) {
 	stub := &stubHTTPClient{
-		response: json.RawMessage(`{"id":"task_123","status":"processing"}`),
-	}
+		response: json.RawMessage(`{"id":"task_123","status":"processing"}`)}
 	client := NewClientWithHTTP(stub)
 	enablePromptExpansion := true
 	resp, err := client.TextToImage.Create(context.Background(), TextToImageParams{
 		Prompt:                "a cat wearing sunglasses",
 		Model:                 "flux-kontext-pro",
-		EnablePromptExpansion: &enablePromptExpansion,
-	})
+		EnablePromptExpansion: &enablePromptExpansion})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,14 +59,12 @@ func TestTextToImageCreate(t *testing.T) {
 
 func TestTextToImageCreateWithSourceImageURL(t *testing.T) {
 	stub := &stubHTTPClient{
-		response: json.RawMessage(`{"id":"task_789","status":"processing"}`),
-	}
+		response: json.RawMessage(`{"id":"task_789","status":"processing"}`)}
 	client := NewClientWithHTTP(stub)
 	resp, err := client.TextToImage.Create(context.Background(), TextToImageParams{
 		Prompt:         "replace the sky",
 		Model:          "flux-kontext-pro",
-		SourceImageURL: "https://cdn.runapi.ai/public/samples/source.jpg",
-	})
+		SourceImageURL: "https://cdn.runapi.ai/public/samples/source.jpg"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -86,8 +82,7 @@ func TestTextToImageCreateWithSourceImageURL(t *testing.T) {
 
 func TestTextToImageGet(t *testing.T) {
 	stub := &stubHTTPClient{
-		response: json.RawMessage(`{"id":"task_456","status":"completed","images":[{"url":"https://cdn.runapi.ai/public/samples/result.jpg"}]}`),
-	}
+		response: json.RawMessage(`{"id":"task_456","status":"completed", "usage": {"cost": 0.05},"images":[{"url":"https://cdn.runapi.ai/public/samples/result.jpg"}]}`)}
 	client := NewClientWithHTTP(stub)
 	resp, err := client.TextToImage.Get(context.Background(), "task_abc")
 	if err != nil {

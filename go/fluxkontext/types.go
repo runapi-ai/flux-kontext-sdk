@@ -35,7 +35,7 @@ type Image struct {
 // It implements the core.TaskResponse interface, allowing the generic polling
 // helpers to track task progress and detect completion or failure.
 type AsyncTaskResponse struct {
-	core.TaskBillingFacts
+	Usage *core.TaskUsage `json:"usage,omitempty"`
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`
