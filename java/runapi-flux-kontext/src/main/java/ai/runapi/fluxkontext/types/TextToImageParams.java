@@ -18,8 +18,8 @@ public final class TextToImageParams {
   private final Boolean watermark;
 
   private TextToImageParams(Builder builder) {
-    this.model = FluxkontextParamUtils.requireNonBlankTrim(builder.model, "model");
-    this.prompt = FluxkontextParamUtils.requireNonBlank(builder.prompt, "prompt");
+    this.model = builder.model;
+    this.prompt = builder.prompt;
     this.aspectRatio = builder.aspectRatio;
     this.outputFormat = builder.outputFormat;
     this.sourceImageUrl = builder.sourceImageUrl;
@@ -81,32 +81,32 @@ public final class TextToImageParams {
 
     /** Sets the model slug using a string value. */
     public Builder model(String value) {
-      this.model = FluxkontextParamUtils.requireNonBlankTrim(value, "model");
+      this.model = value;
       return this;
     }
 
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = FluxkontextParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
     /** Sets the output aspect ratio. */
     public Builder aspectRatio(String value) {
-      this.aspectRatio = FluxkontextParamUtils.requireNonBlank(value, "aspectRatio");
+      this.aspectRatio = value;
       return this;
     }
 
     /** Sets the output format. */
     public Builder outputFormat(String value) {
-      this.outputFormat = FluxkontextParamUtils.requireNonBlank(value, "outputFormat");
+      this.outputFormat = value;
       return this;
     }
 
     /** Sets the source image URL. */
     public Builder sourceImageUrl(String value) {
-      this.sourceImageUrl = FluxkontextParamUtils.requireNonBlank(value, "sourceImageUrl");
+      this.sourceImageUrl = value;
       return this;
     }
 
@@ -130,7 +130,7 @@ public final class TextToImageParams {
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = FluxkontextParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 

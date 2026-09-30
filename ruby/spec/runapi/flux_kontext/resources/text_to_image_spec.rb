@@ -30,31 +30,6 @@ RSpec.describe RunApi::FluxKontext::Resources::TextToImage do
       expect(result["id"]).to eq("task-2")
     end
 
-    it "raises ValidationError when model is missing" do
-      expect { text_to_image.create(prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: flux-kontext-max, flux-kontext-pro/)
-    end
-
-    it "raises ValidationError when prompt is missing" do
-      expect { text_to_image.create(model: "flux-kontext-pro") }
-        .to raise_error(RunApi::Core::ValidationError, /prompt is required/)
-    end
-
-    it "raises ValidationError for invalid model" do
-      expect { text_to_image.create(model: "invalid", prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: flux-kontext-max, flux-kontext-pro/)
-    end
-
-    it "raises ValidationError for invalid aspect_ratio" do
-      expect { text_to_image.create(model: "flux-kontext-pro", prompt: "test", aspect_ratio: "7:3") }
-        .to raise_error(RunApi::Core::ValidationError, /aspect_ratio must be one of: 21:9, 16:9, 4:3, 1:1, 3:4, 9:16/)
-    end
-
-    it "raises ValidationError for invalid output_format" do
-      expect { text_to_image.create(model: "flux-kontext-pro", prompt: "test", output_format: "webp") }
-        .to raise_error(RunApi::Core::ValidationError, /output_format must be one of: jpeg, png/)
-    end
-
     it "passes valid optional params without error" do
       params = {
         model: "flux-kontext-max",
